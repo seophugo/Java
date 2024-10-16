@@ -16,8 +16,8 @@ int Player2length = 70;
 
 boolean keyW = false;
 boolean keyZ = false;
-int yW = 0;
-int yZ = 0;
+int yW = 250;
+int yZ = 250;
 
 boolean keyS = false;
 boolean keyX = false;
@@ -31,18 +31,8 @@ void draw() {
   ball();
   Player1();
   Player2();
-  if(keyW){
-    yW -= 6;
-  }
-  if(keyZ){
-   yZ -= 6; 
-  }
-  if(keyS){
-    yW += 6;
-  }
-  if(keyX){
-    yZ += 6;
-  }
+  Borders();
+  Keys();
 }
 
 void Player1() {
@@ -72,6 +62,21 @@ void ball(){
   }
 }
 
+void Borders(){
+  if (yW > 805) {
+    yW = 0;
+  }
+  if (yW < 0) {
+    yW = 0;
+  }
+  if (yZ > 500) {
+    yZ = 0;
+  }
+  if (yZ < 0) {
+    yZ = 0;
+  }
+}
+
 void keyPressed(){
  if(key == 'w'){ 
   keyW = true;
@@ -94,4 +99,19 @@ void keyReleased(){
   keyS = false;
   }else if(key == 'x')
   keyX = false;
+}
+
+void Keys(){
+  if(keyW){
+  yW -= 5;
+  }
+  if(keyZ){
+   yZ -= 5; 
+  }
+  if(keyS){
+    yW += 5;
+  }
+  if(keyX){
+    yZ += 5;
+  }
 }

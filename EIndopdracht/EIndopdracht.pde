@@ -1,44 +1,46 @@
-int x = 500;
+int x = 400;
 int y = 250;
 int grote = 15;
-int horSpeed = 5;
+int horSpeed = -5;
 int verSpeed = 5;
 
 int Player1x = 20;
 int Player1y = 200;
-int Player1width = 15;
+int Player1width = 10;
 int Player1length = 70;
 
 int Player2x = 760;
 int Player2y = 200;
-int Player2width = 15;
+int Player2width = 10;
 int Player2length = 70;
 
 boolean keyW = false;
 boolean keyup = false;
 int yW = 250;
 int yArrow = 250;
-
 boolean keyS = false;
 boolean keydown = false;
 
 int Score1 = 0;
 int Score2 = 0;
+boolean gameStop = false;
 
 void setup() {
   size(800, 500);
 }
 
 void draw() {
-  frameRate(60);
-  background(0);
-  ball();
-  Player1();
-  Player2();
-  Borders();
-  Keys();
-  Stuiter();
-  score();
+  if (!gameStop) {
+    frameRate(60);
+    background(0);
+    ball();
+    Player1();
+    Player2();
+    Borders();
+    Keys();
+    Stuiter();
+    score();
+  }
 }
 
 void Player1() {
@@ -52,8 +54,8 @@ void Player2() {
 void ball(){
   y += verSpeed;
   x += horSpeed;
-  background(0);
   ellipse(x, y, grote, grote);
+  
   if (y > 485) {
     verSpeed = -5;
   }
@@ -78,68 +80,112 @@ void Borders(){
 }
 
 void keyPressed(){
- if(key == 'w'){ 
-  keyW = true;
- }else if(key == 's')
- keyS = true;
- 
- if(keyCode == UP){ 
- keyup = true;
- }else if(keyCode == DOWN)
- keydown = true;
+  if (key == 'w') { 
+    keyW = true;
+  } else if (key == 's') {
+    keyS = true;
+  }
+  
+  if (keyCode == UP) { 
+    keyup = true;
+  } else if (keyCode == DOWN) {
+    keydown = true;
+  }
+
+  if (key == 'r') {
+    resetGame();
+  }
 }
 
 void keyReleased(){
-  if(key == 'w'){
-  keyW = false;
-  }else if(key == 's')
-  keyS = false;
+  if (key == 'w') {
+    keyW = false;
+  } else if (key == 's') {
+    keyS = false;
+  }
   
-  if(keyCode == UP){
-  keyup = false;
-  }else if(keyCode == DOWN)
-  keydown = false;
+  if (keyCode == UP) {
+    keyup = false;
+  } else if (keyCode == DOWN) {
+    keydown = false;
+  }
 }
 
 void Keys(){
-  if(keyW){
-  yW -= 5;
+  if (keyW) {
+    yW -= 5;
   }
-  if(keyup){
-   yArrow -= 5; 
+  if (keyup) {
+    yArrow -= 5; 
   }
-  if(keyS){
+  if (keyS) {
     yW += 5;
   }
-  if(keydown){
+  if (keydown) {
     yArrow += 5;
   }
 }
 
-void Stuiter(){
- if(x > Player1x && x < Player1x + Player1width  &&  y > yW && y < yW + Player1length){
-  horSpeed = 5;
- }
-  if (x > Player2x && x < Player2x + Player2width && y > yArrow && y < yArrow + Player2length) {
-  horSpeed = -5;
- }
+void Stuiter() {
+
+  if (x - grote / 2 <= Player1x + Player1width && y >= yW && y <= yW + Player1length) {
+    horSpeed = 5;
+  }
+  if (x + grote / 2 >= Player2x && y >= yArrow && y <= yArrow + Player2length) {
+    horSpeed = -5;
+  }
 }
 
 void score(){
-  text(Score1,360,50);
   textSize(50);
-  text(Score2,440,50);
-  textSize(50);
-  if(x > 800){
+  fill(255);
+  text(Score1, 360, 50);
+  text(Score2, 440, 50);
+  
+
+  if (x > 800) {
     Score1++;
-    x = 500;
-    y = 250;
-    horSpeed = -5;
+    resetBall();
   }
-  if(x < 0){
+  
+  if (x < 0) {
     Score2++;
-    x = 300;
-    y = 250;
-    horSpeed = 5;
+    resetBall();
   }
+  
+  if (Score1 == 2) {
+    fill(0, 255, 0);
+    textSize(50);
+    text("Player 1 wins!", 275, 250);
+    noFill();
+    gameStop = true;
+    noLoop();
+  }
+
+  if (Score2 == 2) {
+    fill(0, 255, 0);
+    textSize(50);
+    text("Player 2 wins!", 275, 250);
+    noFill();
+    gameStop = true;
+    noLoop(); 
+  }
+}
+
+void resetBall(){
+  x = 400;
+  y = 250;
+  horSpeed = -5;
+  verSpeed = 5;
+}
+
+void resetGame(){
+  x = 400;
+  y = 250;
+  Score1 = 0;
+  Score2 = 0;
+  horSpeed = 5;
+  verSpeed = 5;
+  gameStop = false;
+  loop();
 }

@@ -5,12 +5,10 @@ int horSpeed = -5;
 int verSpeed = 5;
 
 int Player1x = 20;
-int Player1y = 200;
 int Player1width = 10;
 int Player1length = 70;
 
 int Player2x = 760;
-int Player2y = 200;
 int Player2width = 10;
 int Player2length = 70;
 
@@ -51,7 +49,7 @@ void Player2() {
   rect(Player2x, yArrow, Player2width, Player2length);
 }
 
-void ball(){
+void ball() {
   y += verSpeed;
   x += horSpeed;
   ellipse(x, y, grote, grote);
@@ -64,7 +62,7 @@ void ball(){
   }
 }
 
-void Borders(){
+void Borders() {
   if (yW >= 425) {
     yW = 425;
   }
@@ -79,7 +77,7 @@ void Borders(){
   }
 }
 
-void keyPressed(){
+void keyPressed() {
   if (key == 'w') { 
     keyW = true;
   } else if (key == 's') {
@@ -97,7 +95,7 @@ void keyPressed(){
   }
 }
 
-void keyReleased(){
+void keyReleased() {
   if (key == 'w') {
     keyW = false;
   } else if (key == 's') {
@@ -111,7 +109,7 @@ void keyReleased(){
   }
 }
 
-void Keys(){
+void Keys() {
   if (keyW) {
     yW -= 5;
   }
@@ -127,7 +125,6 @@ void Keys(){
 }
 
 void Stuiter() {
-
   if (x - grote / 2 <= Player1x + Player1width && y >= yW && y <= yW + Player1length) {
     horSpeed = 5;
   }
@@ -136,13 +133,12 @@ void Stuiter() {
   }
 }
 
-void score(){
+void score() {
   textSize(50);
   fill(255);
   text(Score1, 360, 50);
   text(Score2, 440, 50);
   
-
   if (x > 800) {
     Score1++;
     resetBall();
@@ -153,7 +149,7 @@ void score(){
     resetBall();
   }
   
-  if (Score1 == 2) {
+  if (Score1 >= 5) {
     fill(0, 255, 0);
     textSize(50);
     text("Player 1 wins!", 275, 250);
@@ -162,30 +158,27 @@ void score(){
     noLoop();
   }
 
-  if (Score2 == 2) {
+  if (Score2 >= 5) {
     fill(0, 255, 0);
     textSize(50);
     text("Player 2 wins!", 275, 250);
     noFill();
     gameStop = true;
-    noLoop(); 
+    noLoop();
   }
 }
 
-void resetBall(){
+void resetBall() {
   x = 400;
   y = 250;
   horSpeed = -5;
   verSpeed = 5;
 }
 
-void resetGame(){
-  x = 400;
-  y = 250;
+void resetGame() {
+  resetBall();
   Score1 = 0;
   Score2 = 0;
-  horSpeed = 5;
-  verSpeed = 5;
   gameStop = false;
   loop();
 }

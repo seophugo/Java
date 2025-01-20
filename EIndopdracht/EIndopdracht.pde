@@ -19,8 +19,7 @@ int yArrow = 250;
 boolean keyS = false;
 boolean keydown = false;
 
-int Score1 = 0;
-int Score2 = 0;
+int[] scores = {0, 0};
 boolean gameStop = false;
 
 void setup() {
@@ -136,35 +135,30 @@ void Stuiter() {
 void score() {
   textSize(50);
   fill(255);
-  text(Score1, 360, 50);
-  text(Score2, 440, 50);
+  
+  text(scores[0], 360, 50);
+  text(scores[1], 440, 50);
   
   if (x > 800) {
-    Score1++;
+    scores[0]++;
     resetBall();
   }
   
   if (x < 0) {
-    Score2++;
+    scores[1]++;
     resetBall();
   }
   
-  if (Score1 >= 5) {
-    fill(0, 255, 0);
-    textSize(50);
-    text("Player 1 wins!", 275, 250);
-    noFill();
-    gameStop = true;
-    noLoop();
-  }
-
-  if (Score2 >= 5) {
-    fill(0, 255, 0);
-    textSize(50);
-    text("Player 2 wins!", 275, 250);
-    noFill();
-    gameStop = true;
-    noLoop();
+  for (int i = 0; i < scores.length; i++) {
+    if (scores[i] >= 5) {
+      fill(0, 255, 0);
+      textSize(50);
+      String winner = (i == 0) ? "Player 1" : "Player 2";
+      text(winner + " wins!", 275, 250);
+      noFill();
+      gameStop = true;
+      noLoop();
+    }
   }
 }
 
@@ -177,8 +171,8 @@ void resetBall() {
 
 void resetGame() {
   resetBall();
-  Score1 = 0;
-  Score2 = 0;
+  scores[0] = 0;
+  scores[1] = 0;
   gameStop = false;
   loop();
 }
